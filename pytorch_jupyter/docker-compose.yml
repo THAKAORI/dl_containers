@@ -8,7 +8,6 @@ services:
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
     ports:
-      - 8888
       - 10000:22
     tty: true
     volumes:
