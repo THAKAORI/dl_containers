@@ -11,7 +11,7 @@ RUN echo 'root:takahirohori' | chpasswd
 RUN echo '\nPermitRootLogin yes' >> /etc/ssh/sshd_config
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 RUN apt-get install -y git
-RUN pip install --upgrade pip
+
 RUN pip install jupyterlab
 RUN mkdir ./dllearn && cd ./dllearn
 RUN pip install -U jupyterlab
