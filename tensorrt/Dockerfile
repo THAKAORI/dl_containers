@@ -10,7 +10,6 @@ RUN apt-get install -y apt-utils && \
     apt-get install -y software-properties-common vim curl unzip htop openssh-server wget procps
 RUN mkdir /var/run/sshd
 RUN echo 'root:takahirohori' | chpasswd
-RUN echo '\nPermitRootLogin yes' >> /etc/ssh/sshd_config
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 RUN apt-get install -y git
 
