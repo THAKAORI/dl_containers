@@ -1,4 +1,4 @@
-FROM nvcr.io/nvidia/tensorrt:21.05-py3
+FROM nvcr.io/nvidia/tensorrt:21.03-py3
 
 LABEL maintainer "Takahiro_Hori"
 
