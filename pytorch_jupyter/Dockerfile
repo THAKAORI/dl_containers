@@ -3,7 +3,6 @@ FROM pytorch/pytorch:latest
 LABEL maintainer "Takahiro_Hori"
 
 RUN apt-get update --fix-missing
-RUN apt-get upgrade -y
 RUN apt-get install -y apt-utils && \
     apt-get install -y software-properties-common vim curl unzip htop openssh-server wget procps
 RUN mkdir /var/run/sshd
