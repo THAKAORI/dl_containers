@@ -12,5 +12,6 @@ services:
       - "8888"
     tty: true
     volumes:
-      - /home/takahiro/datadir:/workspace/datadir
+      - ~/datadir:/workspace/datadir
+      - ~/.ssh:~/.ssh
 
