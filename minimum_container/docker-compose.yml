@@ -13,5 +13,5 @@ services:
     tty: true
     volumes:
       - ~/datadir:/workspace/datadir
-      - ~/.ssh:~/.ssh
+      - ~/.ssh:/root/.ssh
 
