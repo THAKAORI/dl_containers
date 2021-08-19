@@ -1,6 +1,6 @@
 version: "3"
 services:
-  torch_jupyter:
+  minimum_container:
     container_name: testcontainer
     runtime: nvidia
     build: .
