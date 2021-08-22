@@ -1,28 +1,23 @@
-FROM ubuntu:latest
+FROM pytorch/pytorch:latest
 
 LABEL maintainer "Takahiro_Hori"
 
-RUN apt-get update --fix-missing
-# RUN apt-get install -y apt-utils && \
-#     apt-get install -y software-properties-common vim curl unzip htop openssh-server wget procps
+RUN apt-get update
 RUN apt-get install -y openssh-server
+
 RUN mkdir /var/run/sshd
-# RUN echo 'root:takahirohori' | chpasswd
-RUN echo '\nPermitRootLogin yes' >> /etc/ssh/sshd_config
-RUN echo '\nRSAAuthentication yes' >> /etc/ssh/sshd_config
-RUN echo '\nPubkeyAuthentication yes' >> /etc/ssh/sshd_config
-RUN echo '\nAuthorizedKeysFile /root/.ssh/authorized_keys' >> /etc/ssh/sshd_config
-# RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+
 RUN apt-get install -y git
 
-# RUN pip install jupyterlab
-# RUN mkdir ./dllearn && cd ./dllearn
-# RUN pip install -U jupyterlab
-# RUN pip install numpy scipy pandas matplotlib scikit-image scikit-learn seaborn ipywidgets
-# RUN pip install IProgress
-
-# ENV NOTVISIBLE "in users profile"
-# RUN echo "export VISIBLE=now" >> /etc/profile
+COPY id_rsa_yairiws3.pub /root/authorized_keys
 
 EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
+
+CMD mkdir ~/.ssh && \
+    mv ~/authorized_keys ~/.ssh/authorized_keys && \
+    chmod 0600 ~/.ssh/authorized_keys && \
+    /usr/sbin/sshd -D
+
