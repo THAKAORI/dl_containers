@@ -1,14 +1,14 @@
 version: "3"
 services:
-  minimum_container:
-    container_name: testcontainer
+  panoptic_container:
+    container_name: panoptic_container
     runtime: nvidia
     build: .
-    shm_size: '16gb'
+    shm_size: '256gb'
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
     ports:
-      - "11451:22"
+      - "11452:22"
       - "8888"
       - "6006"
     tty: true

@@ -1,4 +1,4 @@
-FROM pytorch/pytorch:1.7.1-cuda11.0-cudnn8-devel
+FROM pytorch/pytorch:latest
 
 LABEL maintainer "Takahiro_Hori"
 
@@ -14,14 +14,15 @@ RUN apt-get install -y git
 RUN pip install opencv-python opencv-contrib-python
 RUN apt-get install -y libgl1-mesa-dev
 RUN apt-get install -y libglib2.0-0
-RUN pip install tensorflow==1.15
+RUN pip install scipy matplotlib
 
-COPY id_rsa_yairiws3.pub /root/authorized_keys
+COPY id_rsa.pub /root/authorized_keys
 
 EXPOSE 22
 
-CMD mkdir ~/.ssh && \
-    mv ~/authorized_keys ~/.ssh/authorized_keys && \
-    chmod 0600 ~/.ssh/authorized_keys && \
-    /usr/sbin/sshd -D
+RUN mkdir /root/.ssh
+RUN mv /root/authorized_keys /root/.ssh/authorized_keys
+RUN chmod 0600 /root/.ssh/authorized_keys
+
+CMD /usr/sbin/sshd -D
 
