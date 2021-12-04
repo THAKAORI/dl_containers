@@ -1,0 +1,16 @@
+version: "3"
+services:
+  panoptic_container:
+    container_name: panoptic_container
+    runtime: nvidia
+    build: .
+    shm_size: '64gb'
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    ports:
+      - "12435:22"
+      - "8888"
+      - "6006"
+    tty: true
+    volumes:
+      - ~/datadir:/workspace/datadir
