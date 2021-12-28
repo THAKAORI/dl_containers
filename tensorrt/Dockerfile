@@ -1,24 +1,27 @@
-FROM nvcr.io/nvidia/tensorrt:21.03-py3
+FROM nvcr.io/nvidia/tensorrt:21.11-py3
 
 LABEL maintainer "Takahiro_Hori"
 
-RUN /opt/tensorrt/python/python_setup.sh
-RUN /opt/tensorrt/install_opensource.sh
+RUN apt-get update
+RUN apt-get install -y openssh-server
 
-ENV DEBIAN_FRONTEND=noninteractive
-
-RUN apt-get update --fix-missing
-RUN apt-get install -y git
-RUN apt-get install -y apt-utils && \
-    apt-get install -y software-properties-common vim curl unzip htop openssh-server wget procps
 RUN mkdir /var/run/sshd
-RUN echo 'root:takahirohori' | chpasswd
-RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 
-RUN pip install jupyterlab
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 
-ENV NOTVISIBLE "in users profile"
-RUN echo "export VISIBLE=now" >> /etc/profile
+RUN apt-get install -y git
+RUN pip install opencv-python opencv-contrib-python
+RUN apt-get install -y libgl1-mesa-dev
+RUN apt-get install -y libglib2.0-0
+RUN pip install scipy matplotlib
+
+COPY id_rsa.pub /root/authorized_keys
 
 EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
+
+RUN mkdir /root/.ssh
+RUN mv /root/authorized_keys /root/.ssh/authorized_keys
+RUN chmod 0600 /root/.ssh/authorized_keys
+
+CMD /usr/sbin/sshd -D

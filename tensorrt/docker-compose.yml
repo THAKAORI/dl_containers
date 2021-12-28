@@ -1,14 +1,14 @@
 version: "3"
 services:
   tensorrt_test:
-    #container_name: mlcontainer
+    container_name: trtcontainer
     runtime: nvidia
     build: .
-    shm_size: '16gb'
+    shm_size: '32gb'
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
     ports:
-      - "11451:22"
+      - "22"
       - "8888"
     tty: true
     volumes:
